@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>파일 업로드 페이지</title>
 </head>
 <body>
 	<h1>파일 업로드 폼</h1>
