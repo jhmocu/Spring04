@@ -8,8 +8,10 @@ import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -61,29 +64,20 @@ public class AttachController {
 		log.info("attachPath : " + attachPath);
 	}
 	
-	@GetMapping("/download")
+	@GetMapping(value = "/download", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+	@ResponseBody
     public ResponseEntity<Resource> downloadFile(String fileName) throws IOException {
         log.info(fileName);
 		// 서버에 저장된 파일 경로
-        Path filePath = Paths.get(uploadPath, fileName);
-
-        // 파일을 ByteArrayResource로 변환하여 리턴
-        ByteArrayResource resource = new ByteArrayResource(Files.readAllBytes(filePath));
-
+        Resource resource = new FileSystemResource(uploadPath + fileName);
         // 다운로드할 파일 이름을 헤더에 설정
         HttpHeaders headers = new HttpHeaders();
-        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + fileName);
+        String conversionName = new String(resource.getFilename().getBytes("UTF-8"),"ISO-8859-1");
+        headers.add(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + conversionName);
 
-        // 파일의 MIME 타입 설정
-        String mimeType = Files.probeContentType(filePath);
-        MediaType mediaType = MediaType.parseMediaType(mimeType);
         
         // 파일을 클라이언트로 전송
-        return ResponseEntity.ok()
-                .headers(headers)
-                .contentLength(resource.contentLength())
-                .contentType(mediaType)
-                .body(resource);
+        return new ResponseEntity<Resource>(resource, headers, HttpStatus.OK);
     }
 	
 	
