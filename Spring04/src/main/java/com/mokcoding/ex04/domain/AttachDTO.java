@@ -1,4 +1,4 @@
-package com.mokcoding.domain;
+package com.mokcoding.ex04.domain;
 
 import java.util.Date;
 
@@ -14,8 +14,13 @@ import lombok.ToString;
 @Setter
 @ToString 
 public class AttachDTO {
-	private String memberId;
+	private int attachId;
+	private int boardId;
 	private String attachPath;
+	private String attachRealName;
+	private String attachChgName;
+	private String attachExtension;
+	private Date attachDateCreated;
 	private MultipartFile file;
 	
 }
