@@ -4,10 +4,15 @@ import java.io.File;
 import java.io.IOException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.mokcoding.ex04.util.FileUploadUtil;
 
 import lombok.extern.log4j.Log4j;
 
@@ -52,6 +57,34 @@ public class FileUploadController {
 			} 
 		}
 	} // end uploadsPost()
+	
+	@GetMapping("/upload-ajax")
+	public void uploadAjaxGET() {
+		log.info("uploadAjaxGET() 호출");
+	}
+	
+	@PostMapping("/upload-ajax")
+	@ResponseBody
+	public ResponseEntity<String> uploadAjaxPOST(MultipartFile[] files) {
+		log.info("uploadAjaxPOST() 호출");
+		
+		String result = null; // result : 파일 경로 및 썸네일 이미지 이름
+		
+		
+		return new ResponseEntity<String>(result, HttpStatus.OK);
+		
+	}
+	
+	@GetMapping("/display")
+	public ResponseEntity<byte[]> display(String fileName) {
+		log.info("display() 호출");
+		
+		ResponseEntity<byte[]> entity = null;
+
+		
+		return entity;
+		
+	}
 	
 } // end FileUploadController
 

@@ -126,4 +126,19 @@ public class FileUploadUtil {
         }
     }
     
+    
+    // MultipartFile 객체가 이미지 파일인지 확인하는 메서드
+    public static boolean isImageFile(MultipartFile file) {
+        if (file == null || file.isEmpty()) {
+            return false;
+        }
+
+        // ContentType 정보 참조
+        String contentType = file.getContentType();
+
+        // Content Type이 "image/"로 시작하는지 확인
+        return contentType != null && contentType.startsWith("image/");
+    }
+    
+    
 }

@@ -43,7 +43,7 @@ public class AttachController {
 
     // 첨부 파일 업로드 처리(POST)
     @PostMapping("/attach")
-    public String attachPOST(AttachDTO attachDTO) {
+    public void attachPOST(AttachDTO attachDTO) {
         log.info("attachPost()");
         log.info("attachDTO = " + attachDTO);
         MultipartFile file = attachDTO.getFile();
@@ -64,7 +64,7 @@ public class AttachController {
         // DB에 첨부 파일 정보 저장
         log.info(attachService.createAttach(attachDTO) + "행 등록") ;
 
-        return "redirect:/list";
+//        return "redirect:/list";
     } // end attachPOST()
     
     // 첨부 파일 목록 조회(GET)
