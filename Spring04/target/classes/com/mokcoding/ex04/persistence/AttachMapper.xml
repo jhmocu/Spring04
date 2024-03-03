@@ -20,13 +20,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<insert id="insert">
 		INSERT INTO ATTACH 
 		(ATTACH_ID, BOARD_ID, ATTACH_PATH, ATTACH_REAL_NAME, ATTACH_CHG_NAME, ATTACH_EXTENSION)
-		VALUES (ATTACH_SEQ.NEXTVAL, #{boardId}, #{attachPath}, #{attachRealName}, #{attachChgName}, #{attachExtension});
+		VALUES (ATTACH_SEQ.NEXTVAL, #{boardId}, #{attachPath}, #{attachRealName}, #{attachChgName}, #{attachExtension})
 
 	</insert>
 
 	<select id="selectByAttachId" resultMap="attachResultMap">
 		SELECT * FROM ATTACH 
-		WHERER ATTACH_ID = #{attachId};
+		WHERE ATTACH_ID = #{attachId}
+	</select>
+	
+	<select id="selectIdList" resultType="Integer">
+		SELECT ATTACH_ID FROM ATTACH
 	</select>
 
 	<update id="update">
@@ -35,15 +39,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	ATTACH_REAL_NAME = #{attachRealName},
     	ATTACH_CHG_NAME = #{attachChgName},
     	ATTACH_EXTENSION = #{attachExtension}
-		WHERE ATTACH_ID = #{attachId};
+		WHERE ATTACH_ID = #{attachId}
 
 	</update>
 
 	<delete id="delete">
 		DELETE FROM ATTACH
-		WHERE ATTACH_ID = #{attachId};
-		
+		WHERE ATTACH_ID = #{attachId}
 	</delete>
+	
+	
 
 </mapper>
 

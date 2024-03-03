@@ -1,5 +1,8 @@
 package com.mokcoding.ex04.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,9 +21,9 @@ public class AttachServiceImple implements AttachService {
 
 
     @Override
-    public int createAttach(AttachDTO attach) {
+    public int createAttach(AttachDTO attachDTO) {
     	log.info("createAttach");
-        return attachMapper.insert(toEntity(attach));
+        return attachMapper.insert(toEntity(attachDTO));
     }
 
     @Override
@@ -28,11 +31,17 @@ public class AttachServiceImple implements AttachService {
     	log.info("getAttachById()");
         return toDto(attachMapper.selectByAttachId(attachId));
     }
+    
+    @Override
+    public List<Integer> getAllId() {
+    	log.info("getAllAttachs()");
+    	return attachMapper.selectIdList();
+    }
 
     @Override
-    public int updateAttach(AttachDTO attach) {
+    public int updateAttach(AttachDTO attachDTO) {
     	log.info("updateAttach()");
-        return attachMapper.update(toEntity(attach));
+        return attachMapper.update(toEntity(attachDTO));
     }
 
     @Override

@@ -7,13 +7,12 @@
 <title>첨부 파일 페이지</title>
 </head>
 <body>
-	<h1>파일 업로드 폼</h1>
+	<h1>파일 업로드</h1>
 	<form action="attach" method="post" enctype="multipart/form-data">
-		<input type="text" name="memberId">
+		<input type="text" name="boardId" value="2" readonly="readonly">
 		<input type="file" name="file">
 		<input type="submit" value="업로드">
 	</form>
-	
 
 </body>
 </html>

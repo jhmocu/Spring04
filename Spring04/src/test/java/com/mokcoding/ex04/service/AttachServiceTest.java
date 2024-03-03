@@ -1,5 +1,8 @@
 package com.mokcoding.ex04.service;
 
+import java.io.File;
+import java.util.UUID;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,30 +26,44 @@ public class AttachServiceTest {
 	@Test
 	public void test() {
 		testCreateAttach();
-		testGetAttach();
-		testUpdateAttach();
-		testDeleteAttach();
+		// testGetAttach();
+		// testUpdateAttach();
+		// testDeleteAttach();
 	}
 
 	private void testCreateAttach() {
 		AttachDTO dto = new AttachDTO();
+		dto.setBoardId(2);
+		dto.setAttachPath("2024"+ File.separator + "03"+ File.separator + "01");
+		UUID uuid = UUID.randomUUID();
+		dto.setAttachRealName("test");
+		dto.setAttachChgName(uuid.toString());
+		dto.setAttachExtension("txt");
 		
-		attachService.createAttach(null);
+		log.info(attachService.createAttach(dto) + "행 등록");
 	}
 
 	private void testGetAttach() {
-		// TODO Auto-generated method stub
+		AttachDTO dto = attachService.getAttachById(1);
+		log.info(dto);
 		
 	}
 
 	private void testUpdateAttach() {
-		// TODO Auto-generated method stub
+		AttachDTO dto = new AttachDTO();
 		
+		dto.setAttachPath("2024"+ File.separator + "03"+ File.separator + "01");
+		UUID uuid = UUID.randomUUID();
+		dto.setAttachRealName("update");
+		dto.setAttachChgName(uuid.toString());
+		dto.setAttachExtension("txt");
+		dto.setAttachId(1);
+		
+		log.info(attachService.updateAttach(dto) + "행 수정");
 	}
 
 	private void testDeleteAttach() {
-		// TODO Auto-generated method stub
-		
+		log.info(attachService.deleteAttach(1) + "행 삭제");
 	}
 	
 

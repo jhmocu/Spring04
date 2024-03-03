@@ -12,7 +12,7 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.mokcoding.ex04">
-		<level value="info" />
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->
