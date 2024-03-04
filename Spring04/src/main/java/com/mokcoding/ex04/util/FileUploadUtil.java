@@ -1,5 +1,6 @@
 package com.mokcoding.ex04.util;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -9,6 +10,7 @@ import org.apache.commons.io.FilenameUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.log4j.Log4j;
+import net.coobird.thumbnailator.Thumbnails;
 
 @Log4j
 public class FileUploadUtil {
@@ -76,9 +78,9 @@ public class FileUploadUtil {
      * 
      * @param uploadPath 파일 업로드 경로
      * @param file 업로드된 파일
-     * @param uuid UUID
+     * @param chgName UUID
      */
-    public static void saveFile(String uploadPath, MultipartFile file, String uuid) {
+    public static void saveFile(String uploadPath, MultipartFile file, String chgName) {
         
         File realUploadPath = new File(uploadPath, makeDatePath());
         if (!realUploadPath.exists()) {
@@ -88,9 +90,10 @@ public class FileUploadUtil {
             log.info(realUploadPath.getPath() + " already exists.");
         }
         
-        File saveFile = new File(realUploadPath, uuid);
+        File saveFile = new File(realUploadPath, chgName);
         try {
             file.transferTo(saveFile);
+            
             log.info("file upload scuccess");
         } catch (IllegalStateException e) {
             log.error(e.getMessage());
@@ -140,5 +143,21 @@ public class FileUploadUtil {
         return contentType != null && contentType.startsWith("image/");
     }
     
+    public static void createThumbnail(String uploadPath, String path, String chgName, String extension) {
+    	String realUploadPath = uploadPath + File.separator + path;
+    	String thumbnailName = "t_" + chgName;
+    	File destPath = new File(realUploadPath, thumbnailName);
+        File savePath = new File(realUploadPath, chgName);
+    	try {
+			Thumbnails.of(savePath)
+			          .size(100, 100) // 썸네일 크기 지정
+			          .outputFormat(extension) // 확장자 설정
+			          .toFile(destPath); // 저장될 경로와 이름
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+    }
     
 }

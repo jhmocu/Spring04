@@ -75,15 +75,23 @@
 					data : formData,
 					processData : false,
 					contentType : false,
-					success : function(data) {
-						console.log(data);
-						
+					success : function(list) {
+						console.log(list);
 						var str = '';
-						str += '<div>'
-							+ '<img width="100px" height="100px" src="display?fileName='
-							+ data
-							+ '" />'
-							+ '</div>';
+						$(list).each(function(){
+							// this : 컬렉션의 각 인덱스 데이터를 의미
+							console.log(this);
+						  	var attachDTO = this;
+							
+							str += '<div>'
+								+ '<img width="100px" height="100px" src="display?fileName='
+								+ this.attachChgName + ".jpg"
+								+ '" />'
+								+ 't_' + this.attachChgName
+								+ '</div>';
+						}); // end each()
+
+						
 						$('.upload-list').html(str);
 					}
 				
