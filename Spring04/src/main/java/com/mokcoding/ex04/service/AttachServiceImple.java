@@ -34,7 +34,7 @@ public class AttachServiceImple implements AttachService {
     
     @Override
     public List<Integer> getAllId() {
-    	log.info("getAllAttachs()");
+    	log.info("getAllId()");
     	return attachMapper.selectIdList();
     }
 
@@ -60,7 +60,7 @@ public class AttachServiceImple implements AttachService {
         attach.setAttachChgName(attachDto.getAttachChgName());
         attach.setAttachExtension(attachDto.getAttachExtension());
         attach.setAttachDateCreated(attachDto.getAttachDateCreated());
-        // file 필드는 Attach 엔티티에 없으므로 무시됩니다.
+        // file 필드는 Attach 엔티티에 없으므로 생략
         return attach;
     }
 
@@ -74,7 +74,7 @@ public class AttachServiceImple implements AttachService {
         attachDto.setAttachChgName(attach.getAttachChgName());
         attachDto.setAttachExtension(attach.getAttachExtension());
         attachDto.setAttachDateCreated(attach.getAttachDateCreated());
-        // AttachDTO의 file 필드는 Attach 엔티티에 없으므로 무시됩니다.
+        // AttachDTO의 file 필드는 Attach 엔티티에 없으므로 생략
         return attachDto;
     }
 }
