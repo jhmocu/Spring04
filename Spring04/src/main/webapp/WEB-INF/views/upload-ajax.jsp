@@ -75,15 +75,18 @@
 					data : formData,
 					processData : false,
 					contentType : false,
-					success : function(data) {
-						console.log(data);
-						
+					success : function(list) {
+						console.log(list);
+
 						var str = '';
 						str += '<div>'
 							+ '<img width="100px" height="100px" src="display?fileName='
 							+ data
 							+ '" />'
 							+ '</div>';
+							
+						
+						
 						$('.upload-list').html(str);
 					}
 				
