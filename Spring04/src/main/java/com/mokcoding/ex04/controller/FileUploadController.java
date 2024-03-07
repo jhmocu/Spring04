@@ -68,14 +68,14 @@ public class FileUploadController {
 
 	@GetMapping("/upload-ajax")
 	public void uploadAjaxGET() {
-		log.info("uploadAjaxGET() 호출");
+		log.info("uploadAjaxGET()");
 	}
 
 	// 전송된 파일들을 원본 이미지와 섬네일 이미지로 저장
 	@PostMapping("/upload-ajax")
 	@ResponseBody
 	public ResponseEntity<ArrayList<AttachDTO>> uploadAjaxPOST(MultipartFile[] files) {
-		log.info("uploadAjaxPOST() 호출");
+		log.info("uploadAjaxPOST()");
 
 		ArrayList<AttachDTO> list = new ArrayList<>();
 
@@ -108,10 +108,11 @@ public class FileUploadController {
 
 	}
 
+	// 전송받은 파일 경로 및 파일 이름으로 
+	// 이미지 파일을 호출
 	@GetMapping("/display")
 	public ResponseEntity<byte[]> display(String attachPath, String fileName) {
-		log.info("display() 호출");
-		log.info(fileName);
+		log.info("display()");
 		ResponseEntity<byte[]> entity = null;
 		try {
 			// 파일을 읽어와서 byte 배열로 변환
