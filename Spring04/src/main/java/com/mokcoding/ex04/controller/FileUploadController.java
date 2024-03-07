@@ -71,6 +71,7 @@ public class FileUploadController {
 		log.info("uploadAjaxGET() 호출");
 	}
 
+	// 전송된 파일들을 원본 이미지와 섬네일 이미지로 저장
 	@PostMapping("/upload-ajax")
 	@ResponseBody
 	public ResponseEntity<ArrayList<AttachDTO>> uploadAjaxPOST(MultipartFile[] files) {
@@ -108,14 +109,17 @@ public class FileUploadController {
 	}
 
 	@GetMapping("/display")
-	public ResponseEntity<byte[]> display(String fileName) {
+	public ResponseEntity<byte[]> display(String attachPath, String fileName) {
 		log.info("display() 호출");
 		log.info(fileName);
 		ResponseEntity<byte[]> entity = null;
 		try {
 			// 파일을 읽어와서 byte 배열로 변환
-			Path path = Paths.get(fileName);
+			String savedPath = uploadPath + File.separator 
+					+ attachPath + File.separator + fileName; 
+			Path path = Paths.get(savedPath);
 			byte[] imageBytes = Files.readAllBytes(path);
+
 
 			// 이미지의 MIME 타입 확인하여 적절한 Content-Type 지정
 			String contentType = Files.probeContentType(path);

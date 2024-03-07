@@ -129,8 +129,12 @@ public class FileUploadUtil {
         }
     }
     
-    
-    // MultipartFile 객체가 이미지 파일인지 확인하는 메서드
+    /**
+     * 이미지 파일인지 확인
+     * 
+     * @param file 전송된 파일 객체
+     * @return 파일이면 true
+     */
     public static boolean isImageFile(MultipartFile file) {
         if (file == null || file.isEmpty()) {
             return false;
@@ -143,11 +147,23 @@ public class FileUploadUtil {
         return contentType != null && contentType.startsWith("image/");
     }
     
-    public static void createThumbnail(String uploadPath, String path, String chgName, String extension) {
+    /**
+     * 원본 이미지로 섬네일 파일을 생성
+     * 
+     * @param uploadPath 업로드된 파일의 기본 경로
+     * @param path 업로드된 파일의 상세 경로
+     * @param chgName 변경된 파일명
+     * @param extension 파일 확장자
+     */
+    public static void createThumbnail(String uploadPath, String path, 
+    		String chgName, String extension) {
     	String realUploadPath = uploadPath + File.separator + path;
-    	String thumbnailName = "t_" + chgName;
-    	File destPath = new File(realUploadPath, thumbnailName);
-        File savePath = new File(realUploadPath, chgName);
+    	String thumbnailName = "t_" + chgName; // 섬네일 파일 이름
+    	
+    	// 섬네일 파일 저장 경로 및 이름
+    	File destPath = new File(realUploadPath, thumbnailName); 
+    	// 원본 파일 저장 경로 및 이름
+        File savePath = new File(realUploadPath, chgName); 
     	try {
 			Thumbnails.of(savePath)
 			          .size(100, 100) // 썸네일 크기 지정
