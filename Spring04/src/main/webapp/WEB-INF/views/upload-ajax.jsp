@@ -5,12 +5,22 @@
 <head>
 <meta charset="UTF-8">
 <title>이미지 업로드</title>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 <style type="text/css">
 .file-drop {
 	width : 100;
 	height : 100px;
 	border : 1px solid grey;
+}
+.thumbnail_item {
+	position: relative; 
+	display: inline-block;
+	margin: 4px;
+}
+
+.thumbnail_delete {
+	position: absolute; 
+	right: 5px;
 }
 </style>
 </head>
@@ -21,7 +31,6 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function(){
-			
 			// 파일 객체를 배열로 전송받아 검증하는 함수
 			function validateImages(files){
 				var maxSize = 10 * 1024 * 1024; // 10 MB 
@@ -94,25 +103,67 @@
 						$(data).each(function(){
 							// this : 컬렉션의 각 인덱스 데이터를 의미
 							console.log(this);
-						  	var attachDTO = this;
+						  	var attachDTO = this; // attachDTO 저장
+						  	// encodeURIComponent() : 문자열에 포함된 특수 기호를 UTF-8로 
+						  	// 인코딩하여 이스케이프시퀀스로 변경하는 함수 
 							var attachPath = encodeURIComponent(this.attachPath);
 						  	
-							list += '<div>'
-								+ '<img width="100px" height="100px" src="display?attachPath=' + attachPath + '&fileName='
-								+ 't_' + this.attachChgName + ".jpg"
-								+ '" />'
-								+ 't_' + this.attachRealName
-								+ '</div>';
+						    // display() 메서드에서 이미지 호출을 위한 문자열 구성
+						    list += '<div class="thumbnail_item" >'
+						    	+ '<pre>'
+						    	+ '<input type="hidden" id="attachPath" value="'+ this.attachPath +'">'
+						    	+ '<input type="hidden" id="attachChgName" value="'+ attachDTO.attachChgName +'">'
+						    	+ '<input type="hidden" id="extension" value="'+ attachDTO.attachExtension +'">'
+						        + '<a href="display?attachPath=' + attachPath + '&attachChgName='
+						        + attachDTO.attachChgName + "&extension=" + attachDTO.attachExtension
+						        + '" target="_blank">'
+						        + '<img width="100px" height="100px" src="display?attachPath=' 
+						        + attachPath + '&attachChgName='
+						        + 't_' + attachDTO.attachChgName 
+						        + "&extension=" + attachDTO.attachExtension
+						        + '" />'
+						        + '</a>'
+						        + '<button class="thumbnail_delete" >x</button>'
+						        + '</pre>'
+						        + '</div>';
 						}); // end each()
 
-						
+						// list 문자열 upload-list div 태그에 적용
 						$('.upload-list').html(list);
 					} // end success
 				
 				}); // end $.ajax()
 				
-
 			}); // end file-drop()
+			
+			// $(document).on() : 이벤트를 동적으로 바인딩하기 위한 메서드
+			$(document).on('click', '.thumbnail_item .thumbnail_delete', function(){
+				console.log(this);
+				
+				if(!confirm('삭제하시겠습니까?')) {
+					return;
+				}
+				var attachPath = $(this).prevAll('#attachPath').val();
+				var attachChgName = $(this).prevAll('#attachChgName').val();
+				var extension = $(this).prevAll('#extension').val();
+				console.log(attachPath);
+				
+				// ajax 요청
+				$.ajax({
+					type : 'POST', 
+					url : '/ex04/img-delete/', 
+					data : {
+						attachPath : attachPath, 
+						attachChgName : attachChgName,
+						extension : extension						
+					}, 
+
+					success : function(result) {
+						console.log(result);
+					}
+				});
+				
+			}); // end document.on()
 			
 		}); // end document
 	

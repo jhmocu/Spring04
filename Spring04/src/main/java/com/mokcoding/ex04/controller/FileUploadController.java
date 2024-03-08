@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -108,22 +109,27 @@ public class FileUploadController {
 
 	}
 
-	// 전송받은 파일 경로 및 파일 이름으로 
+	// 전송받은 파일 경로 및 파일 이름, 확장자로 
 	// 이미지 파일을 호출
 	@GetMapping("/display")
-	public ResponseEntity<byte[]> display(String attachPath, String fileName) {
+	public ResponseEntity<byte[]> display(String attachPath, String attachChgName, String extension) {
 		log.info("display()");
+		log.info(attachPath);
 		ResponseEntity<byte[]> entity = null;
 		try {
 			// 파일을 읽어와서 byte 배열로 변환
 			String savedPath = uploadPath + File.separator 
-					+ attachPath + File.separator + fileName; 
+					+ attachPath + File.separator + attachChgName; 
+			if(attachChgName.startsWith("t_")) { // 섬네일 파일에는 확장자 추가
+				savedPath += "." + extension;
+			}
 			Path path = Paths.get(savedPath);
 			byte[] imageBytes = Files.readAllBytes(path);
 
 
+			Path extensionPath = Paths.get("." + extension);
 			// 이미지의 MIME 타입 확인하여 적절한 Content-Type 지정
-			String contentType = Files.probeContentType(path);
+			String contentType = Files.probeContentType(extensionPath);
 
 			// HTTP 응답에 byte 배열과 Content-Type을 설정하여 전송
 			HttpHeaders httpHeaders = new HttpHeaders();
@@ -138,5 +144,19 @@ public class FileUploadController {
 		return entity;
 
 	}
-
+	
+    // 섬네일 및 원본 이미지 삭제 기능
+    @PostMapping("/img-delete")
+    public ResponseEntity<Integer> imgDelete(String attachPath, String attachChgName, String extension) {
+    	log.info("delete()");
+    	log.info(attachPath);
+    	FileUploadUtil.deleteFile(uploadPath, attachPath, attachChgName);
+    	
+    	String thumbnailName = "t_" + attachChgName + "." + extension;
+    	FileUploadUtil.deleteFile(uploadPath, attachPath, thumbnailName);
+    	
+    	return new ResponseEntity<Integer>(1, HttpStatus.OK);
+    }
+	
+	
 } // end FileUploadController
