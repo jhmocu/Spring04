@@ -109,7 +109,7 @@
 							var attachPath = encodeURIComponent(this.attachPath);
 						  	
 						    // display() 메서드에서 이미지 호출을 위한 문자열 구성
-						    list += '<div class="thumbnail_item" >'
+						    list += '<div class="thumbnail_item" data-chgName="'+ this.attachChgName +'">'
 						    	+ '<pre>'
 						    	+ '<input type="hidden" id="attachPath" value="'+ this.attachPath +'">'
 						    	+ '<input type="hidden" id="attachChgName" value="'+ attachDTO.attachChgName +'">'
@@ -136,10 +136,8 @@
 				
 			}); // end file-drop()
 			
-			// $(document).on() : 이벤트를 동적으로 바인딩하기 위한 메서드
-			$(document).on('click', '.thumbnail_item .thumbnail_delete', function(){
+			$('.upload-list').on('click', '.thumbnail_item .thumbnail_delete', function(){
 				console.log(this);
-				
 				if(!confirm('삭제하시겠습니까?')) {
 					return;
 				}
@@ -160,6 +158,19 @@
 
 					success : function(result) {
 						console.log(result);
+						if(result == 1) {
+							// find() : 요소 찾기
+							// filter() : 특정 조건에 맞는 요소를 필터링
+							// remove() : 요소 삭제
+							$(".upload-list").find("div")
+						    .filter(function() {
+						    	// data-chgName이 삭제 선택된 파일 이름과 같은 경우
+						        return $(this).attr("data-chgName") === attachChgName;
+						    })
+						    .remove();
+
+						}
+
 					}
 				});
 				
