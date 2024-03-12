@@ -113,14 +113,14 @@
 						    	+ '<pre>'
 						    	+ '<input type="hidden" id="attachPath" value="'+ this.attachPath +'">'
 						    	+ '<input type="hidden" id="attachChgName" value="'+ attachDTO.attachChgName +'">'
-						    	+ '<input type="hidden" id="extension" value="'+ attachDTO.attachExtension +'">'
+						    	+ '<input type="hidden" id="attachExtension" value="'+ attachDTO.attachExtension +'">'
 						        + '<a href="display?attachPath=' + attachPath + '&attachChgName='
-						        + attachDTO.attachChgName + "&extension=" + attachDTO.attachExtension
+						        + attachDTO.attachChgName + "&attachExtension=" + attachDTO.attachExtension
 						        + '" target="_blank">'
 						        + '<img width="100px" height="100px" src="display?attachPath=' 
 						        + attachPath + '&attachChgName='
 						        + 't_' + attachDTO.attachChgName 
-						        + "&extension=" + attachDTO.attachExtension
+						        + "&attachExtension=" + attachDTO.attachExtension
 						        + '" />'
 						        + '</a>'
 						        + '<button class="thumbnail_delete" >x</button>'
@@ -145,7 +145,7 @@
 				}
 				var attachPath = $(this).prevAll('#attachPath').val();
 				var attachChgName = $(this).prevAll('#attachChgName').val();
-				var extension = $(this).prevAll('#extension').val();
+				var extension = $(this).prevAll('#attachExtension').val();
 				console.log(attachPath);
 				
 				// ajax 요청

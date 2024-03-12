@@ -112,7 +112,7 @@ public class FileUploadController {
 	// 전송받은 파일 경로 및 파일 이름, 확장자로 
 	// 이미지 파일을 호출
 	@GetMapping("/display")
-	public ResponseEntity<byte[]> display(String attachPath, String attachChgName, String extension) {
+	public ResponseEntity<byte[]> display(String attachPath, String attachChgName, String attachExtension) {
 		log.info("display()");
 		log.info(attachPath);
 		ResponseEntity<byte[]> entity = null;
@@ -121,13 +121,13 @@ public class FileUploadController {
 			String savedPath = uploadPath + File.separator 
 					+ attachPath + File.separator + attachChgName; 
 			if(attachChgName.startsWith("t_")) { // 섬네일 파일에는 확장자 추가
-				savedPath += "." + extension;
+				savedPath += "." + attachExtension;
 			}
 			Path path = Paths.get(savedPath);
 			byte[] imageBytes = Files.readAllBytes(path);
 
 
-			Path extensionPath = Paths.get("." + extension);
+			Path extensionPath = Paths.get("." + attachExtension);
 			// 이미지의 MIME 타입 확인하여 적절한 Content-Type 지정
 			String contentType = Files.probeContentType(extensionPath);
 
@@ -145,14 +145,14 @@ public class FileUploadController {
 
 	}
 	
-    // 섬네일 및 원본 이미지 삭제 기능
+	// 원본 이미지 및 섬네일 삭제 기능
     @PostMapping("/img-delete")
-    public ResponseEntity<Integer> imgDelete(String attachPath, String attachChgName, String extension) {
+    public ResponseEntity<Integer> imgDelete(String attachPath, String attachChgName, String attachExtension) {
     	log.info("delete()");
     	log.info(attachPath);
     	FileUploadUtil.deleteFile(uploadPath, attachPath, attachChgName);
     	
-    	String thumbnailName = "t_" + attachChgName + "." + extension;
+    	String thumbnailName = "t_" + attachChgName + "." + attachExtension;
     	FileUploadUtil.deleteFile(uploadPath, attachPath, thumbnailName);
     	
     	return new ResponseEntity<Integer>(1, HttpStatus.OK);
