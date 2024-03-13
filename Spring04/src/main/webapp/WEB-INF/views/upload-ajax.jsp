@@ -109,7 +109,7 @@
 							var attachPath = encodeURIComponent(this.attachPath);
 						  	
 						    // display() 메서드에서 이미지 호출을 위한 문자열 구성
-						    list += '<div class="thumbnail_item" >'
+						    list += '<div class="thumbnail_item" data-chgName="'+ this.attachChgName +'">'
 						    	+ '<pre>'
 						    	+ '<input type="hidden" id="attachPath" value="'+ this.attachPath +'">'
 						    	+ '<input type="hidden" id="attachChgName" value="'+ attachDTO.attachChgName +'">'
@@ -145,7 +145,7 @@
 				}
 				var attachPath = $(this).prevAll('#attachPath').val();
 				var attachChgName = $(this).prevAll('#attachChgName').val();
-				var extension = $(this).prevAll('#attachExtension').val();
+				var attachExtension = $(this).prevAll('#attachExtension').val();
 				console.log(attachPath);
 				
 				// ajax 요청
@@ -155,11 +155,22 @@
 					data : {
 						attachPath : attachPath, 
 						attachChgName : attachChgName,
-						extension : extension						
+						attachExtension : attachExtension						
 					}, 
 
 					success : function(result) {
 						console.log(result);
+						if(result == 1) {
+							// find() : 요소 찾기
+							// filter() : 특정 조건에 맞는 요소를 필터링
+							// remove() : 요소 삭제
+							$('.upload-list').find('div')
+						    .filter(function() {
+						    	// data-chgName이 삭제 선택된 파일 이름과 같은 경우
+						        return $(this).attr('data-chgName') === attachChgName;
+						    })
+						    .remove();
+						}
 					}
 				});
 				
