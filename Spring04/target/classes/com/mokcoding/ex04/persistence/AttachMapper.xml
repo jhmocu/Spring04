@@ -44,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</update>
 
 	<delete id="delete">
-		DELETE FROM ATTACH
+		DELETE ATTACH
 		WHERE ATTACH_ID = #{attachId}
 	</delete>
 	
