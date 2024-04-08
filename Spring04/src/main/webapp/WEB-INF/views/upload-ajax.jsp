@@ -136,10 +136,8 @@
 				
 			}); // end file-drop()
 			
-			// $(document).on() : 이벤트를 동적으로 바인딩하기 위한 메서드
-			$(document).on('click', '.thumbnail_item .thumbnail_delete', function(){
+			$('.upload-list').on('click', '.thumbnail_item .thumbnail_delete', function(){
 				console.log(this);
-				
 				if(!confirm('삭제하시겠습니까?')) {
 					return;
 				}
@@ -164,6 +162,7 @@
 							// find() : 요소 찾기
 							// filter() : 특정 조건에 맞는 요소를 필터링
 							// remove() : 요소 삭제
+<<<<<<< HEAD
 							$('.upload-list').find('div')
 						    .filter(function() {
 						    	// data-chgName이 삭제 선택된 파일 이름과 같은 경우
@@ -171,6 +170,17 @@
 						    })
 						    .remove();
 						}
+=======
+							$(".upload-list").find("div")
+						    .filter(function() {
+						    	// data-chgName이 삭제 선택된 파일 이름과 같은 경우
+						        return $(this).attr("data-chgName") === attachChgName;
+						    })
+						    .remove();
+
+						}
+
+>>>>>>> branch 'master' of https://github.com/jhmocu/Spring04.git
 					}
 				});
 				

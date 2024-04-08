@@ -19,7 +19,7 @@ import com.zaxxer.hikari.HikariDataSource;
 // root-context.xml과 동일
 @Configuration
 @ComponentScan(basePackages = {"com.mokcoding.ex04.service"})
-@ComponentScan(basePackages = {"com.mokcoding.aspect"})
+@ComponentScan(basePackages = {"com.mokcoding.ex04.aspect"})
 @EnableAspectJAutoProxy
 @MapperScan(basePackages = {"com.mokcoding.ex04.persistence"})
 @EnableTransactionManagement // 트랜잭션 관리 활성화
